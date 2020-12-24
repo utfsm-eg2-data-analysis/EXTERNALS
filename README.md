@@ -27,12 +27,12 @@ To compile at **UTFSM Cluster**, run:
 
 To run on Deuterium target:
 ```
-./run_extern clasd2
+./run_extern.sh clasd2
 ```
 
 To run on Lead target:
 ```
-./run_extern clasPb208
+./run_extern.sh clasPb208
 ```
 
 ## References
