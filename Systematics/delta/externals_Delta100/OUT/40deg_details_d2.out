@@ -1,0 +1,31 @@
+EXTERNAL/TSAI:  VERSION OF 8/8/96
+
+RUNPLAN for 40deg XEM running                                           
+ from Gaskell!                                                          
+                                                                        
+Stein deuterium                                                         
+from Dunne 8/01                                                         
+
+----*----1----*----2----*----3----*----4----*----5----*----6----*----7--
+                                                                        
+
+TARGET (iZ,iA) = (  1,  2);   avgA =   2.000; amuM=  2.013; avgM=  1.875
+ targ=   TUNA; ttarg(rl)=0.00533; twall=0.00143; tbeam=0.00143; tspec=0.00761
+         Nseg  =   4
+ MODELS: P elastc(ikk)=14; deut elastic=13; inelastc=206; Pauli Supresion= 4
+ NUCLEAR METHOD= 1;   NUCLEAR_MODEL= 1
+
+    E1    TH    Q2 COS_K         SMR     NUC          INT-SMR
+    EP     X    W2 QE-PK  INELA  Q-ELA  ELAST   TOTAL  MODEL
+
+ Deut Elastic Model: ia,iamec,rsc,rscmec (1,2,3,4)=  3
+ TJON DEUT ELASTIC FILESS TO BE OPEN=rscctj.tjon_input   rscqtj.tjon_input   rscmtj.tjon_input   
+   5.766 40.000  1.81   24.55   29.32   29.79    1.04   60.15  0.913
+   0.671  0.189  8.63   30.30   32.56   34.23    1.20   67.99 5.009E+00
+
+   5.766 40.000  1.84   23.78   28.74   28.72    0.95   58.42  0.913
+   0.681  0.192  8.59   29.31   31.86   32.99    1.09   65.94 4.951E+00
+
+  0.000 0.000  0.000 .000  0.00  0.00  0.00  0.00  0.00  0.00 0.000
+                           0.00  0.00  0.00  0.00  0.00  0.00 0.000E+00
+

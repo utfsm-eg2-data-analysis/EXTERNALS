@@ -1,0 +1,10 @@
+#ident  "@(#).cshrc     ver 1.0     Aug 20, 1996"
+setenv ROOTSYS /apps/root/5.34.21
+setenv ROOTINC ${ROOTSYS}/include
+setenv ROOTLIB ${ROOTSYS}/lib
+setenv ROOTBIN ${ROOTSYS}/bin
+setenv PATH ${ROOTBIN}:${PATH}
+if ( ! $?LD_LIBRARY_PATH ) then
+        setenv LD_LIBRARY_PATH "." 
+endif
+setenv LD_LIBRARY_PATH ${ROOTLIB}:${LD_LIBRARY_PATH}

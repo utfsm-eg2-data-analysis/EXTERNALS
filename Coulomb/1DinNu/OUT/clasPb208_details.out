@@ -1,0 +1,32 @@
+EXTERNAL/TSAI:  VERSION OF 8/8/96
+
+RUNPLAN for CLAS hadronization experiment                               
+ inclusive:                                                             
+                                                                        
+CLAS LEAD                                                               
+                                                                        
+
+----*----1----*----2----*----3----*----4----*----5----*----6----*----7--
+                                                                        
+
+TARGET (iZ,iA) = ( 82,208);   avgA = 208.000; amuM=207.964; avgM=193.719
+ targ= ordina; ttarg(rl)=0.01561; twall=0.00000; tbeam=0.00000; tspec=0.00761
+         Nseg  =   2
+ MODELS: P elastc(ikk)=14; deut elastic=13; inelastc=206; Pauli Supresion= 1
+ NUCLEAR METHOD= 1;   NUCLEAR_MODEL= 1
+
+    E1    TH    Q2 COS_K         SMR     NUC          INT-SMR
+    EP     X    W2 QE-PK  INELA  Q-ELA  ELAST   TOTAL  MODEL
+
+   5.014 21.840  1.55    2.34    3.17    1.72    0.00    4.89  0.770
+   2.147  0.287  4.71    0.00 -100.00    0.00    0.00 -100.00 4.563E+03
+
+   5.014 27.180  1.71    3.97    7.64    2.93    0.00   10.57  0.725
+   1.540  0.262  5.69    0.00 -100.00    0.00    0.00 -100.00 2.043E+03
+
+   5.014 33.090  1.67    8.33   15.33    6.37    0.01   21.70  0.657
+   1.027  0.223  6.69    0.00 -100.00    0.00    0.00 -100.00 1.188E+03
+
+  0.000 0.000  0.000 .000  0.00  0.00  0.00  0.00  0.00  0.00 0.000
+                           0.00  0.00  0.00  0.00  0.00  0.00 0.000E+00
+

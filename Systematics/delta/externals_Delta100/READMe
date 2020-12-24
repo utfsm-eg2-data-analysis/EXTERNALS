@@ -1,0 +1,22 @@
+The output is found in the "OUT" directory in the externals_2017.  I have hard-wired the program to only generate the internal corrections (it runs a lot faster that way too!). The file to look at is:
+
+OUT/clasd2.out
+
+I think the format is pretty clear. All the cross sections are in units of nb/sr/MeV.
+
+Running the program is a little tricky - there are basically 4 input files.
+
+1.  INP/clasd2.inp  - this file is the "master" input file that basically just points to the other required inputs.
+
+2. RUNPLAN/clas_kin.inp - this file contains the kinematics at which to calculate the cross section and RC. Note that it's pretty sensitive to formatting.
+
+3. TARG/targ.D2tuna - this file contains a lot of info about the target (Z,A, geometry, model to use, etc.). Right now, the only variables that matter are Z and A since the program only calculates the internal corrections.  The model choice is also hardwired for now to use F1F209 from Peter Bosted.
+
+4. OUT/clasd2_details.out  - this gives more detailed output than the summary table above.
+
+To run, you just use the little script (run_extern) in the top level directory. The usage is "./run_extern <input-file>" where you should leave the ".inp" off the master input file. So for this example:
+
+./run_extern clasd2
+
+So to run for different targets, you just need a new target file (there should be some nuclear target examples in the TARG directory), and then a new "master" input file that points to the appropriate target file.
+
