@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "rc_xQ2.C": "cpp",
+        "iosfwd": "cpp",
+        "iomanip": "cpp",
+        "cstdlib": "cpp",
+        "array": "cpp",
+        "iostream": "cpp"
+    }
+}
