@@ -1,0 +1,68 @@
+ Enter the input file name (in INP directory)
+ filename=INP/40degcu.inp                                                      
+input files for EXTERNAL: runplan/target/output                         
+RUNPLAN/40deg_short.inp                                                         
+TARG/targ.Cu                                                                    
+OUT/40deg_details_cu.out                                                        
+ got here
+ Reading parameters for Ioana's model
+ Pauli suppression factors
+  1.00 0.05 1.00 0.63 1.00 0.61 0.83 0.68 0.63 1.00 0.61 0.83
+ Pauli suppression factors
+  1.00 0.10 1.00 0.83 1.00 0.79 0.92 0.84 0.83 1.00 0.79 0.92
+ Pauli suppression factors
+  1.00 0.15 1.00 0.94 1.00 0.87 0.96 0.91 0.94 1.00 0.87 0.96
+ Pauli suppression factors
+  1.00 0.20 1.00 0.99 1.00 0.89 0.97 0.94 0.99 1.00 0.89 0.97
+ Pauli suppression factors
+  1.00 0.25 1.00 1.00 1.00 1.00 0.98 0.96 1.00 1.00 1.00 0.98
+ Pauli suppression factors
+  2.00 0.05 1.00 0.63 1.00 0.62 0.83 0.68 0.63 1.00 0.62 0.83
+ Pauli suppression factors
+  2.00 0.10 1.00 0.83 1.00 0.80 0.92 0.84 0.83 1.00 0.80 0.92
+ Pauli suppression factors
+  2.00 0.15 1.00 0.94 1.00 0.90 0.96 0.91 0.94 1.00 0.90 0.96
+ Pauli suppression factors
+  2.00 0.20 1.00 0.99 1.00 0.94 0.97 0.94 0.99 1.00 0.94 0.97
+ Pauli suppression factors
+  2.00 0.25 1.00 1.00 1.00 1.00 0.98 0.96 1.00 1.00 1.00 0.98
+ Pauli suppression factors
+  3.00 0.05 1.00 0.63 1.00 0.62 0.83 0.68 0.63 1.00 0.62 0.83
+ Pauli suppression factors
+  3.00 0.10 1.00 0.83 1.00 0.81 0.92 0.84 0.83 1.00 0.81 0.92
+ Pauli suppression factors
+  3.00 0.15 1.00 0.94 1.00 0.91 0.96 0.91 0.94 1.00 0.91 0.96
+ Pauli suppression factors
+  3.00 0.20 1.00 0.99 1.00 0.95 0.97 0.94 0.99 1.00 0.95 0.97
+ Pauli suppression factors
+  3.00 0.25 1.00 1.00 1.00 1.00 0.98 0.96 1.00 1.00 1.00 0.98
+ Pauli suppression factors
+  4.00 0.05 1.00 0.63 1.00 0.62 0.83 0.68 0.63 1.00 0.62 0.83
+ Pauli suppression factors
+  4.00 0.10 1.00 0.83 1.00 0.81 0.92 0.84 0.83 1.00 0.81 0.92
+ Pauli suppression factors
+  4.00 0.15 1.00 0.94 1.00 0.91 0.96 0.91 0.94 1.00 0.91 0.96
+ Pauli suppression factors
+  4.00 0.20 1.00 0.99 1.00 0.96 0.97 0.94 0.99 1.00 0.96 0.97
+ Pauli suppression factors
+  4.00 0.25 1.00 1.00 1.00 1.00 0.98 0.96 1.00 1.00 1.00 0.98
+ Pauli suppression factors
+  5.00 0.05 1.00 0.63 1.00 0.62 0.83 0.68 0.63 1.00 0.62 0.83
+ Pauli suppression factors
+  5.00 0.10 1.00 0.83 1.00 0.81 0.92 0.84 0.83 1.00 0.81 0.92
+ Pauli suppression factors
+  5.00 0.15 1.00 0.94 1.00 0.92 0.96 0.91 0.94 1.00 0.92 0.96
+ Pauli suppression factors
+  5.00 0.20 1.00 0.99 1.00 0.97 0.97 0.94 0.99 1.00 0.97 0.97
+ Pauli suppression factors
+  5.00 0.25 1.00 1.00 1.00 1.00 0.98 0.96 1.00 1.00 1.00 0.98
+ e,ep,th,sigb,sigqe=    5.77    0.67   40.00  0.1615E+03  0.4848E-01
+   5.766 40.000  1.81   22.89   31.01   33.56   18.45    0.07   52.07  0.595
+   0.671  0.189  8.63   64.96   66.11   66.68   39.46    0.07  106.21 1.615E+02
+
+    5.7660   0.6706  40.0000   0.1892   1.8093  0.15943E+03  0.15939E+03  0.47855E-01  0.00000E+00  0.33303E+03  0.11007E+00  0.63724E+02  0.26919E+03  0.10130E+01
+ e,ep,th,sigb,sigqe=    5.77    0.68   40.00  0.1595E+03  0.4665E-01
+   5.766 40.000  1.84   22.19   29.89   32.88   17.88    0.06   50.82  0.598
+   0.681  0.192  8.59   62.68   63.62   65.04   38.18    0.06  103.29 1.596E+02
+
+    5.7660   0.6806  40.0000   0.1924   1.8362  0.15754E+03  0.15749E+03  0.46054E-01  0.00000E+00  0.32443E+03  0.10010E+00  0.60933E+02  0.26340E+03  0.10130E+01

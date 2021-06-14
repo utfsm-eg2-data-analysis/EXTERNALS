@@ -1,0 +1,29 @@
+EXTERNAL/TSAI:  VERSION OF 8/8/96
+
+RUNPLAN for 40deg XEM running                                           
+ from Gaskell!                                                          
+                                                                        
+Copper ~6%                                                              
+from ent.m2 using 0.452 g/cm2- revised 2/20/01, and Dunne 8/01          
+
+----*----1----*----2----*----3----*----4----*----5----*----6----*----7--
+                                                                        
+
+TARGET (iZ,iA) = ( 29, 64);   avgA =  64.000; amuM= 63.922; avgM= 59.544
+ targ= ordina; ttarg(rl)=0.06210; twall=0.00000; tbeam=0.00000; tspec=0.00761
+         Nseg  =   2
+ MODELS: P elastc(ikk)=14; deut elastic=13; inelastc=206; Pauli Supresion= 1
+ NUCLEAR METHOD= 1;   NUCLEAR_MODEL= 1
+
+    E1    TH    Q2 COS_K         SMR     NUC          INT-SMR
+    EP     X    W2 QE-PK  INELA  Q-ELA  ELAST   TOTAL  MODEL
+
+   5.766 40.000  1.81   22.89   33.56   18.45    0.07   52.07  0.595
+   0.671  0.189  8.63   64.96   66.68   39.46    0.07  106.21 1.615E+02
+
+   5.766 40.000  1.84   22.19   32.88   17.88    0.06   50.82  0.598
+   0.681  0.192  8.59   62.68   65.04   38.18    0.06  103.29 1.596E+02
+
+  0.000 0.000  0.000 .000  0.00  0.00  0.00  0.00  0.00  0.00 0.000
+                           0.00  0.00  0.00  0.00  0.00  0.00 0.000E+00
+
