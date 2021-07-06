@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
   std::vector<Double_t> Nu_up;
   std::vector<Double_t> Q2_low;
   std::vector<Double_t> Q2_up;
-  
+
   // exit program if ifstream could not open file
   if (!BinningFile) {
     std::cerr << "ERROR: File could not be opened" << std::endl;
