@@ -1,7 +1,7 @@
 # RHEL5 (32 bit)
 #CERN_ROOT = /apps/cernlib/x86_64_rhel6/2005/
 
-OTHERLIBS = -L$(CERN_ROOT)/lib -lmathlib
+OTHERLIBS = -L$(CERN_LIB) -lmathlib
 FFLAGS    = -C -g -w -fno-automatic -fbounds-check -ffixed-line-length-132 -std=legacy
 F77       := gfortran
 

@@ -6,35 +6,57 @@
 /*****************************************/
 
 // This program prints the binning of (Nu, Q2) in a CSV file
-// June 2021
+// October 2021
 
 #include "Binning.hxx"
 #include "Headers.hxx"
 #include "UX.hxx"
 
-int main() {
+int main(int argc, char **argv) {
 
   gProgram = "GetBinning";
 
+  /*** INPUT ***/
+
+  parseCommandLine(argc, argv);
+  printOptions();
+
   /*** WRITE OUTPUT FILE ***/
 
-  // Arrays kEdgesNu and kEdgesQ2 are defined in include/Headers.hxx
+  TString OutputFilename = "binning_" + gParticleOption + ".csv";
+  std::ofstream OutFile(OutputFilename, std::ios::out);
 
-  TString OutFileName = "binning.csv";
-  std::ofstream OutFile(OutFileName, std::ios::out);
-
-  Int_t NbinsNu = (Int_t)(sizeof(kEdgesNu) / sizeof(kEdgesNu[0]));
-  Int_t NbinsQ2 = (Int_t)(sizeof(kEdgesQ2) / sizeof(kEdgesQ2[0]));
-
-  std::cout << "Binning : (Nu, Q2) = " << NbinsNu - 1 << " x " << NbinsQ2 - 1 << std::endl;
-
-  for (Int_t n = 0; n < NbinsNu - 1; n++) {
-    for (Int_t q = 0; q < NbinsQ2 - 1; q++) {
-      OutFile << kEdgesNu[n] << "," << kEdgesNu[n + 1] << "," << kEdgesQ2[q] << "," << kEdgesQ2[q + 1] << std::endl;
-      // std::cout << kEdgesNu[n] << "," << kEdgesNu[n + 1] << "," << kEdgesQ2[q] << "," << kEdgesQ2[q + 1] << std::endl;
+  // related to particle option - now, get edges
+  Double_t EdgesQ2[NbinsQ2 + 1];
+  Double_t EdgesNu[NbinsNu + 1];
+  if (gParticleOption == "omega") {
+    for (Int_t q = 0; q < NbinsQ2 + 1; q++) {
+      EdgesQ2[q] = kEdgesQ2_Omega[q];
+    }
+    for (Int_t n = 0; n < NbinsNu + 1; n++) {
+      EdgesNu[n] = kEdgesNu_Omega[n];
+    }
+  } else {  // "eta"
+    for (Int_t q = 0; q < NbinsQ2 + 1; q++) {
+      EdgesQ2[q] = kEdgesQ2_Eta[q];
+    }
+    for (Int_t n = 0; n < NbinsNu + 1; n++) {
+      EdgesNu[n] = kEdgesNu_Eta[n];
     }
   }
 
+  std::cout << "Binning : (Nu, Q2) = " << NbinsNu << " x " << NbinsQ2 << std::endl;
+
+  for (Int_t n = 0; n < NbinsNu; n++) {
+    for (Int_t q = 0; q < NbinsQ2; q++) {
+      OutFile << EdgesNu[n] << "," << EdgesNu[n + 1] << "," << EdgesQ2[q] << "," << EdgesQ2[q + 1] << std::endl;
+    }
+  }
+
+  // close output file
   OutFile.close();
-  std::cout << "The following file has been created: " << OutFileName << std::endl;
+
+  std::cout << "The following file has been created: " << OutputFilename << std::endl;
+
+  return 0;
 }

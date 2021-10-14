@@ -2,3 +2,5 @@ OUT/*
 **.o
 **~
 externals_all
+**/bin
+**/.vscode

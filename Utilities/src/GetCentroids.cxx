@@ -6,8 +6,9 @@
 /*****************************************/
 
 // This program gets the centroids of (Nu, Q2) bins based on a (Nu, Q2) binning given by a CSV file
-// June 2021
+// October 2021
 
+#include "Binning.hxx"
 #include "Headers.hxx"
 #include "UX.hxx"
 
@@ -20,24 +21,47 @@ int main(int argc, char **argv) {
   parseCommandLine(argc, argv);
   printOptions();
 
-  TChain *InputChain = new TChain();
+  TChain *DataChain = new TChain();
 
-  TCut CutDIS = "Q2 > 1. && W > 2. && Yb < 0.85";
-  TCut CutVertex;
   if (gTargetOption == "D") {  // unified D
-    InputChain->Add(gWorkDir + "/out/GetSimpleTuple/data/C/*.root/ntuple_e");
-    InputChain->Add(gWorkDir + "/out/GetSimpleTuple/data/Fe/*.root/ntuple_e");
-    InputChain->Add(gWorkDir + "/out/GetSimpleTuple/data/Pb/*.root/ntuple_e");
-    CutVertex = "TargType == 1 && vyec > -1.4 && vyec < 1.4";  // GST format
+    DataChain->Add(gWorkDir + "/out/GetSimpleTuple/data/C/*.root/ntuple_e");
+    DataChain->Add(gWorkDir + "/out/GetSimpleTuple/data/Fe/*.root/ntuple_e");
+    DataChain->Add(gWorkDir + "/out/GetSimpleTuple/data/Pb/*.root/ntuple_e");
   } else {
-    InputChain->Add(gWorkDir + "/out/GetSimpleTuple/data/" + gTargetOption + "/*.root/ntuple_e");
-    CutVertex = "TargType == 2 && vyec > -1.4 && vyec < 1.4";  // GST format
+    DataChain->Add(gWorkDir + "/out/GetSimpleTuple/data/" + gTargetOption + "/*.root/ntuple_e");
   }
+
+  TChain *SimChain = new TChain();
+  // assign dirs
+  if (gTargetOption == "D") {
+    SimChain->Add(gWorkDir + "/out/GetSimpleTuple/" + gParticleOption + "-sim/" + gTargetOption + "/00/*.root/ntuple_e");
+    SimChain->Add(gWorkDir + "/out/GetSimpleTuple/" + gParticleOption + "-sim/" + gTargetOption + "/01/*.root/ntuple_e");
+    SimChain->Add(gWorkDir + "/out/GetSimpleTuple/" + gParticleOption + "-sim/" + gTargetOption + "/02/*.root/ntuple_e");
+  } else if (gTargetOption == "Fe") {
+    SimChain->Add(gWorkDir + "/out/GetSimpleTuple/" + gParticleOption + "-sim/" + gTargetOption + "/00/*.root/ntuple_e");
+    SimChain->Add(gWorkDir + "/out/GetSimpleTuple/" + gParticleOption + "-sim/" + gTargetOption + "/01/*.root/ntuple_e");
+  } else if (gTargetOption == "C" || gTargetOption == "Pb") {
+    SimChain->Add(gWorkDir + "/out/GetSimpleTuple/" + gParticleOption + "-sim/" + gTargetOption + "/00/*.root/ntuple_e");
+  }
+
+  // define vertex cuts for data
+  TCut CutVertex;
+  if (gTargetOption == "D") {
+    CutVertex = "TargType == 1 && vyec > -1.4 && vyec < 1.4";
+  } else {  // in case of solid targets: C, Fe, Pb
+    CutVertex = "TargType == 2 && vyec > -1.4 && vyec < 1.4";
+  }
+
+  // define cuts for data and sim. rec.
+  TCut CutDIS = "Q2 > 1. && W > 2. && Yb < 0.85";
+
+  // define cuts for MC
+  TCut CutDIS_MC = "mc_Q2 > 1. && mc_W > 2. && mc_Yb < 0.85";
 
   /*** READ CSV FILE ***/
 
   std::ifstream BinningFile;
-  BinningFile.open("binning.csv", std::ios::in);
+  BinningFile.open("binning_" + gParticleOption + ".csv", std::ios::in);
   std::vector<Double_t> Nu_low;
   std::vector<Double_t> Nu_up;
   std::vector<Double_t> Q2_low;
@@ -46,7 +70,7 @@ int main(int argc, char **argv) {
   // exit program if ifstream could not open file
   if (!BinningFile) {
     std::cerr << "ERROR: File could not be opened" << std::endl;
-    exit(EXIT_FAILURE);
+    return 1;
   }
 
   TString auxLine;
@@ -61,42 +85,85 @@ int main(int argc, char **argv) {
     Q2_up.push_back(auxString[3].Atof());
   }
 
-#ifdef DEBUG
-  for (Size_t i = 0; i < Nu_low.size(); i++) {
-    std::cout << Nu_low[i] << " - " << Nu_up[i] << ", " << Q2_low[i] << " - " << Q2_up[i] << std::endl;
+  /*** GET EDGES & NUMBER OF BINS ***/
+
+  // related to particle option - now, get edges
+  Double_t EdgesQ2[NbinsQ2 + 1];
+  Double_t EdgesNu[NbinsNu + 1];
+  if (gParticleOption == "omega") {
+    for (Int_t q = 0; q < NbinsQ2 + 1; q++) {
+      EdgesQ2[q] = kEdgesQ2_Omega[q];
+    }
+    for (Int_t n = 0; n < NbinsNu + 1; n++) {
+      EdgesNu[n] = kEdgesNu_Omega[n];
+    }
+  } else {  // "eta"
+    for (Int_t q = 0; q < NbinsQ2 + 1; q++) {
+      EdgesQ2[q] = kEdgesQ2_Eta[q];
+    }
+    for (Int_t n = 0; n < NbinsNu + 1; n++) {
+      EdgesNu[n] = kEdgesNu_Eta[n];
+    }
   }
-  std::cout << std::endl;
-#endif
+
+  Int_t NTotalBins = (Int_t)Nu_low.size();
 
   /*** HISTOGRAMS ***/
 
-#ifdef DEBUG
-  TFile *RootOutputFile = new TFile("debug.root", "RECREATE");
-#endif
+  // define data, mc, and sim. rec. histogram
+  TH2D *Hist_Data[NTotalBins];
+  TH2D *Hist_MC[NTotalBins];
+  TH2D *Hist_Sim[NTotalBins];
 
-  Int_t NTotalBins = (Int_t)Nu_low.size();
-  TCut CutBin;
+  // define acceptance and corr hists
+  TH2D *Hist_Acceptance[NTotalBins];
+  TH2D *Hist_Corr[NTotalBins];
+
   Double_t meanX[NTotalBins];
   Double_t meanY[NTotalBins];
-  TH2D *h[NTotalBins];
+
+  // define same hist properties for every hist
+  TString HistProperties = Form("(200, %.2f, %.2f, 200, %.2f, %.2f)", EdgesNu[0], EdgesNu[NbinsNu], EdgesQ2[0], EdgesQ2[NbinsQ2]);
+
+  TCut CutBin;
+  TCut CutBin_MC;
+
+  // loop over listed bins in file
   for (Int_t i = 0; i < NTotalBins; i++) {
+    // update cut
     CutBin = Form("Q2 > %.2f && Q2 < %.2f && Nu > %.2f && Nu < %.2f", Q2_low[i], Q2_up[i], Nu_low[i], Nu_up[i]);
-    InputChain->Draw(Form("Q2:Nu>>h_%d(200, 2.2, 4.2, 300, 1.0, 4.0)", i), CutDIS && CutVertex && CutBin, "goff");
-    h[i] = (TH2D *)gDirectory->GetList()->FindObject(Form("h_%d", i));
-    meanX[i] = h[i]->GetMean(1);
-    meanY[i] = h[i]->GetMean(2);
-#ifdef DEBUG
-    h[i]->Write();
-    std::cout << meanX[i] << ", " << meanY[i] << std::endl;
-#endif
+    CutBin_MC = Form("mc_Q2 > %.2f && mc_Q2 < %.2f && mc_Nu > %.2f && mc_Nu < %.2f", Q2_low[i], Q2_up[i], Nu_low[i], Nu_up[i]);
+
+    // make data histogram
+    DataChain->Draw(Form("Q2:Nu>>data_%i", i) + HistProperties, CutDIS && CutVertex && CutBin, "goff");
+    Hist_Data[i] = (TH2D *)gROOT->FindObject(Form("data_%i", i));
+
+    // make sim. rec. histogram
+    SimChain->Draw(Form("Q2:Nu>>sim_%i", i) + HistProperties, CutDIS && CutBin, "goff");
+    Hist_Sim[i] = (TH2D *)gROOT->FindObject(Form("sim_%i", i));
+
+    // make mc histogram
+    SimChain->Draw(Form("mc_Q2:mc_Nu>>mc_%i", i) + HistProperties, CutDIS_MC && CutBin_MC, "goff");
+    Hist_MC[i] = (TH2D *)gROOT->FindObject(Form("mc_%i", i));
+
+    // make acceptance
+    Hist_Acceptance[i] = new TH2D(Form("acc_%i", i), "", 200, EdgesNu[0], EdgesNu[NbinsNu], 200, EdgesQ2[0], EdgesQ2[NbinsQ2]);
+    Hist_Acceptance[i]->Divide(Hist_Sim[i], Hist_MC[i], 1, 1, "B");
+
+    // correct data
+    Hist_Corr[i] = new TH2D(Form("corr_%i", i), "", 200, EdgesNu[0], EdgesNu[NbinsNu], 200, EdgesQ2[0], EdgesQ2[NbinsQ2]);
+    Hist_Corr[i]->Divide(Hist_Data[i], Hist_Acceptance[i], 1, 1);
+
+    // get 2D centroids
+    meanX[i] = Hist_Corr[i]->GetMean(1);
+    meanY[i] = Hist_Corr[i]->GetMean(2);
   }
-#ifdef DEBUG
-  RootOutputFile->Close();
-#endif
 
   /*** OUTPUT FILE ***/
 
-  std::ofstream OutFile("centroids_" + gTargetOption + ".txt", std::ios::out);
+  TString OutputFilename = "centroids_" + gParticleOption + "_" + gTargetOption + ".txt";
+  std::ofstream OutFile(OutputFilename, std::ios::out);
+
   OutFile << "('Nu','Q2') (";
   for (Int_t i = 0; i < NTotalBins; i++) {
     OutFile << "(" << meanX[i] << "," << meanY[i] << ")";
@@ -106,4 +173,8 @@ int main(int argc, char **argv) {
       OutFile << ",";
   }
   OutFile.close();
+
+  std::cout << "The following file has been created: " << OutputFilename << std::endl;
+
+  return 0;
 }
