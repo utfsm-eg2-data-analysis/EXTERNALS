@@ -1,10 +1,14 @@
 #!/bin/bash
 
 echo ""
-echo ">>> Setting Environment Variables for EXTERNALS"
-echo ""
+echo ">>> Setting necessary environment variables"
+echo "==========================================="
 
-export CERN_LIB=/usr/lib/x86_64-linux-gnu/
+export SOFTDIR=${HOME}/software
+export EXTERNALS=${SOFTDIR}/EXTERNALS
+export CERN_LIB=/lib/x86_64-linux-gnu/
 
-echo ">>> CERN_LIB = ${CERN_LIB}"
+echo ">>> SOFTDIR    = ${SOFTDIR}"
+echo ">>> EXTERNALS  = ${EXTERNALS}"
+echo ">>> CERN_LIB   = ${CERN_LIB}"
 echo ""

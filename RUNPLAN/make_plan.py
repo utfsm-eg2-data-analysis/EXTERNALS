@@ -21,7 +21,7 @@ print """RUNPLAN for CLAS hadronization experiment
 
    E     Ep    theta     W     y     x      Q2"""
 #f=open("binning_info_elec.txt");
-f=open("centroids_C.txt");
+f=open("centroids.txt");
 BinsIn=dict()
 pairs=()
 names=()
@@ -51,7 +51,7 @@ if 'Xb' in BinsIn.keys() and 'Q2' in BinsIn.keys():
         pairs=tuple(  ((x,y) for x in BinsIn["Xb"] for y in BinsIn["Q2"]) )
         pairs=filter(lambda x: sqrt( x[1]/(4*E*(E-x[1]/(2*Mp*x[0])) ) )<=1 ,filter(lambda x: (E - x[1]/2/Mp/x[0])>0,pairs))
 
-    BinsOut=map(lambda x: XbQ2ToEpTh(x[0],x[1]),pairs)        
+    BinsOut=map(lambda x: XbQ2ToEpTh(x[0],x[1]),pairs)
 
 if 'Nu' in BinsIn.keys() and 'Q2' in BinsIn.keys():
     if (len(pairs)==0):
@@ -68,7 +68,7 @@ if 'Xb' in BinsIn.keys() and 'Nu' in BinsIn.keys():
         pairs=tuple(  ((x,y) for x in BinsIn["Nu"] for y in BinsIn["Xb"]) )
         pairs=filter(lambda x: 2*Mp*x[0]*x[1]>1,pairs)
 
-    BinsOut=map(lambda x: NuXbToEpTh(x[0],x[1]),pairs)        
+    BinsOut=map(lambda x: NuXbToEpTh(x[0],x[1]),pairs)
 
 
 for Ep,Th in BinsOut:
