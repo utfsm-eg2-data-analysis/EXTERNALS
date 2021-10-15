@@ -94,6 +94,8 @@ for ((t=0; t<4; t++)); do
     cd ${EXTERNALS}/RUNPLAN/
     sed -i "s|f=open(\"centroids_${part}_${targets[$t]}.txt\");|f=open(\"centroids.txt\");|g" make_plan.py
 
+    cp -v ${EXTERNALS}/OUT/clas${targets_v2[$t]}.out ${PRODIR}/gfx/rad-corr_electron/clas_${part}_${targets[$t]}.out
+
     # go back to Utilities/bin
     cd ${EXTERNALS}/Utilities/bin
 done
