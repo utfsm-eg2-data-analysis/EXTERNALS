@@ -15,7 +15,6 @@ function print_help() {
     echo "  <part>  = selects particle (eta, omega)"
     echo "Example:"
     echo "  ./exec_rad-corr_chain.sh --part omega"
-    exit
 }
 
 function process_args() {
@@ -52,9 +51,15 @@ if [[ -z "${PRODIR}" ]]; then
     exit 1
 fi
 
+if [[ -z "${CERN_LIB}" ]]; then
+    echo "ERROR: variable CERN_LIB is unset."
+    exit 1
+fi
+
 if [[ ${#} -ne 2 ]]; then
     echo "ERROR: ${#} arguments were provided, they should be 2."
     print_help
+    exit 1
 fi
 
 argArray=("$@")
@@ -64,19 +69,10 @@ print_args
 targets=("D" "C" "Fe" "Pb")
 targets_v2=("d2" "C12" "Fe56" "Pb208")
 
-# move to Utilities/
-cd ${EXTERNALS}/Utilities
-make clean; make
-cd ${EXTERNALS}/Utilities/bin
-./GetBinning -p${part}
-
 # loop over targets
 for ((t=0; t<4; t++)); do
-    # execute GetCentroids
-    ./GetCentroids -t${targets[$t]} -p${part}
-
     # copy centroids info to RUNPLAN
-    cp -v centroids_${part}_${targets[$t]}.txt ${EXTERNALS}/RUNPLAN/
+    cp -v ${PRODIR}/gfx/rad-corr_electron/centroids_${part}_${targets[$t]}.txt ${EXTERNALS}/RUNPLAN/
 
     # enter RUNPLAN, modify make_plan.py to open desired centroids file
     cd ${EXTERNALS}/RUNPLAN/
@@ -85,7 +81,7 @@ for ((t=0; t<4; t++)); do
     # execute it
     python make_plan.py > clas_kin.inp
 
-    # move to main dir, compile EXTERNALS and execute it
+    # move back to main dir, compile EXTERNALS and execute it
     cd ${EXTERNALS}
     make clean; make
     ./run_extern.sh clas${targets_v2[$t]}
@@ -94,8 +90,8 @@ for ((t=0; t<4; t++)); do
     cd ${EXTERNALS}/RUNPLAN/
     sed -i "s|f=open(\"centroids_${part}_${targets[$t]}.txt\");|f=open(\"centroids.txt\");|g" make_plan.py
 
+    # copy results of RC factors to PRODIR
     cp -v ${EXTERNALS}/OUT/clas${targets_v2[$t]}.out ${PRODIR}/gfx/rad-corr_electron/clas_${part}_${targets[$t]}.out
 
-    # go back to Utilities/bin
-    cd ${EXTERNALS}/Utilities/bin
+    echo ""
 done
